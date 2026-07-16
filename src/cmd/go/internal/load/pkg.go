@@ -3579,7 +3579,9 @@ func SelectCoverPackages(s *modload.Loader, roots []*Package, match []func(*modl
 				haveMatch = true
 			}
 		}
-		if !haveMatch {
+		// Let an unmatched main package through so the registration-hook
+		// path below can still run.
+		if !haveMatch && (!includeMain || p.Name != "main") {
 			continue
 		}
 
